@@ -97,6 +97,8 @@ public class Fenetre implements Runnable, ActionListener, MenuListener {
 		file.add(item);
 		file.addSeparator();
 		item = new JMenuItem("Quitter", KeyEvent.VK_Q);
+		item.setActionCommand("quit");
+		item.addActionListener(this);
 		file.add(item);
 
 		// Edition
@@ -164,7 +166,9 @@ public class Fenetre implements Runnable, ActionListener, MenuListener {
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 
-		if (command == "about") {
+		if (command == "quit") {
+			frame.dispose();
+		} else if (command == "about") {
 			show_about();
 		} else if (command == "tipofday") {
 			show_tipofday();

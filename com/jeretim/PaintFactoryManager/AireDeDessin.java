@@ -8,6 +8,8 @@ import java.awt.event.*;
 
 class AireDeDessin extends JComponent implements ComponentListener {
 	public BufferedImage image;
+	private Point sel_origin, sel_dest;
+	private BufferedImage clipboard;
 
 	public AireDeDessin(int width, int height) {
 		// Par defaut, cree une image suffisament grande.
@@ -15,6 +17,10 @@ class AireDeDessin extends JComponent implements ComponentListener {
 		Graphics2D drawable = image.createGraphics();
 		drawable.setPaint(Color.white);
 		drawable.fillRect(0, 0, width, height);
+
+		sel_origin = null;
+		sel_dest   = null;
+		clipboard  = null;
 	}
 
 	public void clear() {
@@ -39,8 +45,11 @@ class AireDeDessin extends JComponent implements ComponentListener {
 	}
 
 	public void paintComponent(Graphics g) {
-		Graphics2D drawable = image.createGraphics();
 		g.drawImage(image, 0, 0, null);
+		if (sel_origin != null) {
+			g.setColor(Color.red);
+			g.drawRect(sel_origin.x, sel_origin.y, sel_dest.x, sel_dest.y);
+		}
 	}
 
 	public void componentResized(ComponentEvent e) {
@@ -59,13 +68,37 @@ class AireDeDessin extends JComponent implements ComponentListener {
 
 	public void to_file(File file) {
 		try {
-			javax.imageio.ImageIO.write(image, "png", file);
+			javax.imageio.ImageIO.write(image.getSubimage(0, 0, getSize().width, getSize().height), "png", file);
 		} catch(Exception e) {
 			System.out.println(e);
 		}
 	}
 
+	public void begin_selection(Point sel) {
+		sel_origin = sel;
+		sel_dest   = sel;
+		clipboard = null;
+	}
+
+	public void update_selection(Point sel) {
+		sel_dest = new Point(sel.x - sel_origin.x, sel.y - sel_origin.y);
+	}
+
+	public void end_selection(Point sel) {
+		clipboard = image.getSubimage(sel_origin.x, sel_origin.y, sel_dest.x, sel_dest.y);
+		sel_origin = null;
+	}
+
+	public void paste(Point pos) {
+		if (clipboard == null)
+			return;
+
+		Graphics2D drawable = image.createGraphics();
+		drawable.drawImage(clipboard, pos.x, pos.y, null);
+	}
+
+	// Ignore methods
 	public void componentHidden(ComponentEvent e) {}
-	public void componentMoved(ComponentEvent e) {}
-	public void componentShown(ComponentEvent e) {}
+	public void componentMoved(ComponentEvent e)  {}
+	public void componentShown(ComponentEvent e)  {}
 }

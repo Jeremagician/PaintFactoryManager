@@ -113,8 +113,12 @@ public class Fenetre implements Runnable, ActionListener, MenuListener {
 		edit.add(item);
 		edit.addSeparator();
 		item = new JMenuItem("Copier", KeyEvent.VK_C);
+		item.setActionCommand("copy");
+		item.addActionListener(this);
 		edit.add(item);
 		item = new JMenuItem("Coller", KeyEvent.VK_V);
+		item.setActionCommand("paste");
+		item.addActionListener(this);
 		edit.add(item);
 
 		// Aide
@@ -146,7 +150,7 @@ public class Fenetre implements Runnable, ActionListener, MenuListener {
 		frame = new JFrame("PaintFactoryManager");
 		drawarea      = new AireDeDessin(500, 200);
 		trace_manager = new TraceManager(drawarea, new Pencil(10), new Eraser(10));
-		listener      = new EcouteurDevenements(trace_manager);
+		listener      = new EcouteurDevenements(trace_manager, drawarea);
 
 		drawarea.addMouseListener(listener);
 		drawarea.addMouseMotionListener(listener);
@@ -180,6 +184,10 @@ public class Fenetre implements Runnable, ActionListener, MenuListener {
 			save();
 		} else if (command == "open") {
 			open();
+		} else if (command == "copy") {
+			listener.set_mode(EcouteurDevenements.InputMode.COPY);
+		} else if (command == "paste") {
+			listener.set_mode(EcouteurDevenements.InputMode.PASTE);
 		}
 	}
 

@@ -2,7 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
-class EcouteurDevenements implements MouseListener, MouseMotionListener, ComponentListener {
+class EcouteurDevenements implements MouseListener, MouseMotionListener {
 	AireDeDessin aire;
 	int origin_x, origin_y;
 
@@ -42,15 +42,8 @@ class EcouteurDevenements implements MouseListener, MouseMotionListener, Compone
 		}
 	}
 
-	public void componentResized(ComponentEvent e) {
-		aire.resize();
-		aire.repaint();
-	}
 
-	// Ignore les autres évenements
-	public void componentHidden(ComponentEvent e) {}
-	public void componentMoved(ComponentEvent e) {}
-	public void componentShown(ComponentEvent e) {}
+	
 	public void mouseMoved(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}

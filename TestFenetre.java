@@ -3,7 +3,7 @@ import javax.swing.*;
 
 public class TestFenetre implements Runnable {
 	public void run() {
-		AireDeDessin mon_dessin = new AireDeDessin();
+		AireDeDessin mon_dessin = new AireDeDessin(500, 200);
 		EcouteurDevenements listener = new EcouteurDevenements(mon_dessin);
 		// Creation d'une fenetre
 		JFrame frame = new JFrame("Ma fenetre a moi");
@@ -12,7 +12,7 @@ public class TestFenetre implements Runnable {
 		// des evenements provenant de la souris
 		mon_dessin.addMouseListener(listener);
 		mon_dessin.addMouseMotionListener(listener);
-		mon_dessin.addComponentListener(listener);
+		mon_dessin.addComponentListener(mon_dessin);
 
 		frame.add(mon_dessin);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

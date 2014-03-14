@@ -9,6 +9,9 @@ import com.jeretim.PaintFactoryManager.Tool.*;
 
 public class Fenetre implements Runnable, ActionListener, MenuListener {
 	private JFrame frame;
+	private AireDeDessin drawarea;
+	private TraceManager trace_manager;
+	private EcouteurDevenements listener;
 
 	public void show_about() {
 		JOptionPane.showMessageDialog(frame,
@@ -81,8 +84,12 @@ public class Fenetre implements Runnable, ActionListener, MenuListener {
 		// Edition
 		edit.setMnemonic(KeyEvent.VK_E);
 		item = new JMenuItem("Annuler", KeyEvent.VK_A);
+		item.setActionCommand("undo");
+		item.addActionListener(this);
 		edit.add(item);
 		item = new JMenuItem("Refaire", KeyEvent.VK_R);
+		item.setActionCommand("redo");
+		item.addActionListener(this);
 		edit.add(item);
 		edit.addSeparator();
 		item = new JMenuItem("Copier", KeyEvent.VK_C);
@@ -117,9 +124,9 @@ public class Fenetre implements Runnable, ActionListener, MenuListener {
 
 	public void create_frame() {
 		frame = new JFrame("PaintFactoryManager");
-		AireDeDessin drawarea = new AireDeDessin(500, 200);
-		TraceManager trace_manager = new TraceManager(drawarea, new Pencil(10), new Eraser(10));
-		EcouteurDevenements listener = new EcouteurDevenements(trace_manager);
+		drawarea      = new AireDeDessin(500, 200);
+		trace_manager = new TraceManager(drawarea, new Pencil(10), new Eraser(10));
+		listener      = new EcouteurDevenements(trace_manager);
 
 		drawarea.addMouseListener(listener);
 		drawarea.addMouseMotionListener(listener);
@@ -143,6 +150,10 @@ public class Fenetre implements Runnable, ActionListener, MenuListener {
 			show_about();
 		} else if (command == "tipofday") {
 			show_tipofday();
+		} else if (command == "undo") {
+			trace_manager.undo();
+		} else if (command == "redo") {
+			trace_manager.redo();
 		}
 	}
 

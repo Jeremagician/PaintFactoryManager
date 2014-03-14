@@ -7,4 +7,4 @@ dist:
 	jar -cvf Apnee2.jar `find . -name "*.java"`
 
 clean:
-	rm *.class com/jeretim/PaintFactoryManager/*.class com/jeretim/PaintFactoryManager/Tool/*.class
+	rm -f *.class com/jeretim/PaintFactoryManager/*.class com/jeretim/Paintfactorymanager/Tool/*.class

@@ -77,12 +77,16 @@ public class TraceManager
 		}
 		else
 		{
+			if (done.empty())
+				return;
 			redo.push(done.pop());
 			redraw();
 		}
 	}
 
 	public void redo() {
+		if (redo.empty())
+			return;
 		done.push(redo.pop());
 		redraw();
 	}

@@ -1,10 +1,12 @@
+package com.jeretim.PaintFactoryManager;
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.image.*;
 import java.awt.event.*;
 
 class AireDeDessin extends JComponent implements ComponentListener {
-	BufferedImage image;
+	public BufferedImage image;
 
 	public AireDeDessin(int width, int height) {
 		// Par defaut, cree une image suffisament grande.
@@ -33,18 +35,6 @@ class AireDeDessin extends JComponent implements ComponentListener {
 			drawable.drawImage(image.getSubimage(0, 0, image.getWidth(), image.getHeight()), 0, 0, Color.white, null);
 			image = scaled;
 		}
-	}
-
-	public void draw_line(int x, int y, int ox, int oy) {
-		Graphics2D drawable = image.createGraphics();
-		drawable.setPaint(Color.black);
-		drawable.drawLine(x, y, ox, oy);
-	}
-
-	public void erase(int x, int y) {
-		Graphics2D drawable = image.createGraphics();
-		drawable.setPaint(Color.white);
-		drawable.drawRect(x - 5, y - 5, 10, 10);
 	}
 
 	public void paintComponent(Graphics g) {

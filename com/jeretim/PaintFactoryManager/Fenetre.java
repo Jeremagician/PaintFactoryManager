@@ -1,10 +1,14 @@
+package com.jeretim.PaintFactoryManager;
+
 import java.awt.*;
 import javax.swing.*;
+import com.jeretim.PaintFactoryManager.Tool.*;
 
-public class TestFenetre implements Runnable {
+public class Fenetre implements Runnable {
 	public void run() {
 		AireDeDessin mon_dessin = new AireDeDessin(500, 200);
-		EcouteurDevenements listener = new EcouteurDevenements(mon_dessin);
+		TraceManager trace_manager = new TraceManager(mon_dessin, new Pencil(10), new Eraser(10));
+		EcouteurDevenements listener = new EcouteurDevenements(trace_manager);
 		// Creation d'une fenetre
 		JFrame frame = new JFrame("Ma fenetre a moi");
 
@@ -18,9 +22,5 @@ public class TestFenetre implements Runnable {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(500, 200);
 		frame.setVisible(true);
-	}
-
-	public static void main(String [] args) {
-		SwingUtilities.invokeLater(new TestFenetre());
 	}
 }

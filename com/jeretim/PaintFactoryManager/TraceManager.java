@@ -31,7 +31,7 @@ public class TraceManager
 	}		
 
 	public void startDraw(ToolId id, int x, int y) {
-		current = new Trace(id == ToolId.LEFT ? left : right);
+		current = new Trace((id == ToolId.LEFT ? left : right).clone());
 		current.add(new Point(x, y));
 		redo.clear();
 	}

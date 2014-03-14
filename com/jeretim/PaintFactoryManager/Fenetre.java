@@ -82,6 +82,8 @@ public class Fenetre implements Runnable, ActionListener, MenuListener {
 		item = new JMenuItem("Nouveau",
 				     UIManager.getIcon("FileView.fileIcon"));
 		item.setMnemonic(KeyEvent.VK_N);
+		item.setActionCommand("new");
+		item.addActionListener(this);
 		file.add(item);
 		item = new JMenuItem("Ouvrir",
 				     UIManager.getIcon("FileView.directoryIcon"));
@@ -180,6 +182,9 @@ public class Fenetre implements Runnable, ActionListener, MenuListener {
 			trace_manager.undo();
 		} else if (command == "redo") {
 			trace_manager.redo();
+		} else if (command == "new") {
+			drawarea.clear();
+			drawarea.repaint();
 		} else if (command == "save") {
 			save();
 		} else if (command == "open") {

@@ -1,5 +1,6 @@
 package com.jeretim.PaintFactoryManager;
 
+import java.io.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.image.*;
@@ -45,6 +46,23 @@ class AireDeDessin extends JComponent implements ComponentListener {
 	public void componentResized(ComponentEvent e) {
 		resize();
 		repaint();
+	}
+
+	public void from_file(File file) {
+		try {
+			image = javax.imageio.ImageIO.read(file);
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		repaint();
+	}
+
+	public void to_file(File file) {
+		try {
+			javax.imageio.ImageIO.write(image, "png", file);
+		} catch(Exception e) {
+			System.out.println(e);
+		}
 	}
 
 	public void componentHidden(ComponentEvent e) {}

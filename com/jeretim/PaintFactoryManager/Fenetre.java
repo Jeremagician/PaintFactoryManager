@@ -13,6 +13,20 @@ public class Fenetre implements Runnable, ActionListener, MenuListener {
 	private TraceManager trace_manager;
 	private EcouteurDevenements listener;
 
+	public void save() {
+		JFileChooser file_chooser = new JFileChooser();
+		if (file_chooser.showSaveDialog(frame) != JFileChooser.APPROVE_OPTION)
+			return;
+		drawarea.to_file(file_chooser.getSelectedFile());
+	}
+
+	public void open() {
+		JFileChooser file_chooser = new JFileChooser();
+		if (file_chooser.showOpenDialog(frame) != JFileChooser.APPROVE_OPTION)
+			return;
+		drawarea.from_file(file_chooser.getSelectedFile());
+	}
+
 	public void show_about() {
 		JOptionPane.showMessageDialog(frame,
 					      "PaintFactoryManager\n" +
@@ -72,10 +86,14 @@ public class Fenetre implements Runnable, ActionListener, MenuListener {
 		item = new JMenuItem("Ouvrir",
 				     UIManager.getIcon("FileView.directoryIcon"));
 		item.setMnemonic(KeyEvent.VK_O);
+		item.setActionCommand("open");
+		item.addActionListener(this);
 		file.add(item);
 		item = new JMenuItem("Enregistrer",
 				     UIManager.getIcon("FileView.floppyDriveIcon"));
 		item.setMnemonic(KeyEvent.VK_S);
+		item.setActionCommand("save");
+		item.addActionListener(this);
 		file.add(item);
 		file.addSeparator();
 		item = new JMenuItem("Quitter", KeyEvent.VK_Q);
@@ -154,6 +172,10 @@ public class Fenetre implements Runnable, ActionListener, MenuListener {
 			trace_manager.undo();
 		} else if (command == "redo") {
 			trace_manager.redo();
+		} else if (command == "save") {
+			save();
+		} else if (command == "open") {
+			open();
 		}
 	}
 
